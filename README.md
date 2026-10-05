@@ -1,11 +1,8 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg">
-  <img alt="Pranav Somalraju. Machine learning at UNC Chapel Hill. Cardiac transplant pathology research with Duke and Caltech." src="assets/header-light.svg">
-</picture>
+I build machine learning things. Right now that's cardiac transplant pathology models with Duke and Caltech.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/tools-dark.svg">
-  <img alt="Python, PyTorch, scikit-learn, LightGBM, Databricks, MLflow, FastAPI, TypeScript, React, Swift" src="assets/tools-light.svg">
-</picture>
+<img src="https://skillicons.dev/icons?i=py,pytorch,sklearn,fastapi,ts,react,threejs,swift,vercel&theme=dark" />
 
-<sub>[pranavsomalraju.vercel.app](https://pranavsomalraju.vercel.app/)</sub>
+![Databricks](https://img.shields.io/badge/Databricks-FF3621?style=flat-square&logo=databricks&logoColor=white)
+![MLflow](https://img.shields.io/badge/MLflow-0194E2?style=flat-square&logo=mlflow&logoColor=white)
+![LightGBM](https://img.shields.io/badge/LightGBM-111111?style=flat-square)
+![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=flat-square&logo=jupyter&logoColor=white)

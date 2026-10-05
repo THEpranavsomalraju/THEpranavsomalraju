@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="840" height="132" viewBox="0 0 840 132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif">
-<rect x="0.5" y="0.5" width="839" height="131" rx="12" fill="#09090b" stroke="#27272a"/>
-<text x="28" y="50" font-size="22" font-weight="600" fill="#fafafa">Pranav Somalraju</text>
-<text x="28" y="78" font-size="14" fill="#a1a1aa">Machine learning at UNC Chapel Hill. Cardiac transplant pathology research with Duke and Caltech.</text>
-<circle cx="32" cy="103" r="3.5" fill="#22c55e"/>
-<text x="42" y="107" font-size="12.5" fill="#a1a1aa">Chapel Hill, NC</text>
-</svg>
