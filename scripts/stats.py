@@ -44,17 +44,17 @@ since_year = gql(f'{{ user(login: "{USER}") {{ createdAt }} }}')["createdAt"][:4
 rows = [("commits", "Total Commits", commits), ("recent", "Commits (last 30 days)", recent), ("pr", "Pull Requests", prs)]
 ICONS["pr"] = ("M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z")
 W, H = 760, 230
-CX, CY, R = 610, 112, 62
+CX, CY, R = 610, 101, 62
 body = "".join(
-    f'<g transform="translate(48,{88 + i * 46})"><svg x="0" y="-17" width="20" height="20" viewBox="0 0 16 16">'
+    f'<g transform="translate(48,{69 + i * 52})"><svg x="0" y="-19" width="22" height="22" viewBox="0 0 16 16">'
     f'<path fill="#1F6FEB" fill-rule="evenodd" d="{ICONS[k]}"/></svg>'
-    f'<text class="stat" x="34" y="0">{label}</text><text class="value" x="390" y="0" text-anchor="end">{value:,}</text></g>'
+    f'<text class="stat" x="36" y="0">{label}</text><text class="value" x="400" y="0" text-anchor="end">{value:,}</text></g>'
     for i, (k, label, value) in enumerate(rows))
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <style>
 .header {{ font: 600 24px 'Segoe UI', Ubuntu, Sans-Serif; fill: #58A6FF; }}
-.stat {{ font: 600 17px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: #C3D1D9; }}
-.value {{ font: 700 17px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: #C3D1D9; }}
+.stat {{ font: 600 19px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: #C3D1D9; }}
+.value {{ font: 700 19px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: #C3D1D9; }}
 .big {{ font: 700 34px 'Segoe UI', Ubuntu, Sans-Serif; fill: #F0F6FC; }}
 .label {{ font: 600 15px 'Segoe UI', Ubuntu, Sans-Serif; fill: #F0F6FC; }}
 .sub {{ font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: #8B949E; }}

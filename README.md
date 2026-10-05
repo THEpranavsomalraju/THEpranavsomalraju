@@ -1,6 +1,6 @@
 <div align="center">
 
-I build machine learning things. Right now that's cardiac transplant pathology models with Duke and Caltech.
+Into machine learning and the backend systems that keep it running. Lately I've been building agents that grade their own predictions and learn from what they got wrong.
 
 <br />
 
