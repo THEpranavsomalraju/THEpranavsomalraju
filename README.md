@@ -1,6 +1,6 @@
 <div align="center">
 
-Into machine learning and the backend systems that keep it running. Lately I've been building agents that grade their own predictions and learn from what they got wrong.
+Currently working on machine learning projects and backend development. Interested in the connection between neuroscience and AI, and in what the brain already figured out that our models haven't: learning from a handful of examples, running on about 20 watts, and knowing when it's wrong.
 
 <br />
 
