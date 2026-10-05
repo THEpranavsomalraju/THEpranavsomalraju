@@ -4,6 +4,6 @@ Into machine learning and the backend systems that keep it running. Lately I've 
 
 <br />
 
-<img src="card.svg" alt="GitHub stats" />
+<img src="stats-card.svg" alt="GitHub stats" />
 
 </div>

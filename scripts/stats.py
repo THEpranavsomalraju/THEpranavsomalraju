@@ -68,5 +68,5 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <text class="sub" x="{CX}" y="{CY + 98}" text-anchor="middle">since {since_year}</text>
 </svg>
 '''
-open("card.svg", "w").write(svg)
+open("stats-card.svg", "w").write(svg)
 print(contributions, commits, recent, prs)
