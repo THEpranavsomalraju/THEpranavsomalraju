@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="150" viewBox="0 0 420 150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif">
+<rect x="0.5" y="0.5" width="419" height="149" rx="10" fill="#ffffff" stroke="#e4e4e7"/>
+<text x="20" y="36" font-size="15" font-weight="600" fill="#09090b">Refuge</text>
+<text x="400" y="36" font-size="11.5" text-anchor="end" fill="#71717a">Python · TypeScript · LightGBM</text>
+<text x="20" y="64" font-size="13" fill="#71717a">Send a tornado or hurricane through any U.S. town. Risk</text><text x="20" y="83" font-size="13" fill="#71717a">model trained on 30 years of NOAA storms.</text>
+<rect x="20" y="106" width="222" height="24" rx="6" fill="#f4f4f5"/>
+<text x="131.0" y="122" font-size="11.5" font-weight="500" text-anchor="middle" fill="#18181b">1st place, Carolina Data Challenge</text>
+</svg>
