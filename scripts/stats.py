@@ -1,0 +1,60 @@
+"""Builds stats.svg: total contributions, total commits and commits in the last 30 days, from GitHub's GraphQL API."""
+from __future__ import annotations
+
+import json
+import os
+import urllib.request
+from datetime import datetime, timedelta, timezone
+
+USER = "THEpranavsomalraju"
+NAME = "Pranav Somalraju"
+TOKEN = os.environ["GITHUB_TOKEN"]
+
+
+def gql(query: str) -> dict:
+    req = urllib.request.Request("https://api.github.com/graphql", data=json.dumps({"query": query}).encode(),
+                                 headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json"})
+    with urllib.request.urlopen(req) as r:
+        return json.load(r)["data"]["user"]
+
+
+def window(start: str, end: str | None = None) -> dict:
+    to = f', to: "{end}"' if end else ""
+    return gql(f'{{ user(login: "{USER}") {{ contributionsCollection(from: "{start}"{to}) '
+               '{ totalCommitContributions contributionCalendar { totalContributions } } } }')["contributionsCollection"]
+
+
+years = gql(f'{{ user(login: "{USER}") {{ contributionsCollection {{ contributionYears }} }} }}')["contributionsCollection"]["contributionYears"]
+contributions = commits = 0
+for y in years:
+    c = window(f"{y}-01-01T00:00:00Z", f"{y}-12-31T23:59:59Z")
+    contributions += c["contributionCalendar"]["totalContributions"]
+    commits += c["totalCommitContributions"]
+since = (datetime.now(timezone.utc) - timedelta(days=30)).strftime("%Y-%m-%dT%H:%M:%SZ")
+recent = window(since)["totalCommitContributions"]
+
+ICONS = {
+    "contrib": "M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z",
+    "commits": "M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z",
+    "recent": "M11.93 8.5a4.002 4.002 0 0 1-7.86 0H.75a.75.75 0 0 1 0-1.5h3.32a4.002 4.002 0 0 1 7.86 0h3.32a.75.75 0 0 1 0 1.5Zm-1.43-.75a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z",
+}
+rows = [("contrib", "Total Contributions:", contributions), ("commits", "Total Commits:", commits),
+        ("recent", "Commits (last 30 days):", recent)]
+W, H = 400, 142
+body = "".join(
+    f'<g transform="translate(25,{65 + i * 28})"><svg x="0" y="-13" width="16" height="16" viewBox="0 0 16 16">'
+    f'<path fill="#1F6FEB" fill-rule="evenodd" d="{ICONS[k]}"/></svg>'
+    f'<text class="stat" x="25" y="0">{label}</text><text class="stat" x="250" y="0">{value:,}</text></g>'
+    for i, (k, label, value) in enumerate(rows))
+svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+<style>
+.header {{ font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif; fill: #58A6FF; }}
+.stat {{ font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: #C3D1D9; }}
+</style>
+<rect x="0.5" y="0.5" rx="4.5" width="{W - 1}" height="{H - 1}" fill="#0D1117"/>
+<text class="header" x="25" y="35">{NAME}'s GitHub Stats</text>
+{body}
+</svg>
+'''
+open("stats.svg", "w").write(svg)
+print(contributions, commits, recent)
