@@ -1,29 +1,18 @@
-### hey, i'm pranav
+## Pranav Somalraju
 
-i build ml things at unc chapel hill. mostly models that have to hold up against real data, and the apps that put them in front of people.
+ML at UNC Chapel Hill. These days I'm working on cardiac transplant pathology models with Duke and Caltech, and building at hackathons on the side.
 
-```python
-pranav = {
-    "based_in": "chapel hill, nc",
-    "currently": "ml for cardiac transplant pathology, with duke and caltech",
-    "into": ["forecasting", "computer vision", "agents that check their own work"],
-    "rule": "always show the baseline",
-}
-```
+<a href="https://github.com/THEpranavsomalraju/gummi"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=THEpranavsomalraju&repo=gummi&theme=transparent&hide_border=true&description_lines_count=2" /></a>
+<a href="https://github.com/THEpranavsomalraju/refuge"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=THEpranavsomalraju&repo=refuge&theme=transparent&hide_border=true&description_lines_count=2" /></a>
+<a href="https://github.com/THEpranavsomalraju/Rejection-Classifer-Caltech-Duke"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=THEpranavsomalraju&repo=Rejection-Classifer-Caltech-Duke&theme=transparent&hide_border=true&description_lines_count=2" /></a>
+<a href="https://github.com/THEpranavsomalraju/eyecode"><img width="49%" src="https://github-readme-stats.vercel.app/api/pin/?username=THEpranavsomalraju&repo=eyecode&theme=transparent&hide_border=true&description_lines_count=2" /></a>
 
-#### recent builds
+### Tools
 
-| | | |
-|---|---|---|
-| [gummi](https://github.com/THEpranavsomalraju/gummi) | glucose coach on databricks. forecasts two hours ahead, then grades itself against what actually happened | overall winner, wolfhacks 2026 |
-| [refuge](https://github.com/THEpranavsomalraju/refuge) | send a tornado through any u.s. town. risk model trained on 30 years of noaa storms, simulator calibrated on real tornadoes | 1st place, carolina data challenge 2026 |
-| [rejection classifier](https://github.com/THEpranavsomalraju/Rejection-Classifer-Caltech-Duke) | resnet50 for cardiac transplant rejection from biopsy tiles | duke + caltech research |
-| [eyecode](https://github.com/THEpranavsomalraju/eyecode) | blink in morse code, get text back. mediapipe face mesh | 2nd place, hacknc 2025 |
+<img src="https://skillicons.dev/icons?i=py,pytorch,sklearn,fastapi,ts,react,threejs,swift,vercel&perline=9" />
 
-#### usually working with
+Plus Databricks, MLflow and LightGBM.
 
-python, pytorch, lightgbm, scikit-learn, databricks, mlflow, fastapi, typescript, react
-
----
+### Elsewhere
 
 [pranavsomalraju.vercel.app](https://pranavsomalraju.vercel.app/)
