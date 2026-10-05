@@ -43,10 +43,10 @@ since_year = gql(f'{{ user(login: "{USER}") {{ createdAt }} }}')["createdAt"][:4
 
 rows = [("commits", "Total Commits", commits), ("recent", "Commits (last 30 days)", recent), ("pr", "Pull Requests", prs)]
 ICONS["pr"] = ("M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z")
-W, H = 760, 248
-CX, CY, R = 610, 122, 62
+W, H = 760, 230
+CX, CY, R = 610, 112, 62
 body = "".join(
-    f'<g transform="translate(40,{100 + i * 40})"><svg x="0" y="-17" width="20" height="20" viewBox="0 0 16 16">'
+    f'<g transform="translate(48,{88 + i * 46})"><svg x="0" y="-17" width="20" height="20" viewBox="0 0 16 16">'
     f'<path fill="#1F6FEB" fill-rule="evenodd" d="{ICONS[k]}"/></svg>'
     f'<text class="stat" x="34" y="0">{label}</text><text class="value" x="390" y="0" text-anchor="end">{value:,}</text></g>'
     for i, (k, label, value) in enumerate(rows))
@@ -59,15 +59,14 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 .label {{ font: 600 15px 'Segoe UI', Ubuntu, Sans-Serif; fill: #F0F6FC; }}
 .sub {{ font: 400 13px 'Segoe UI', Ubuntu, Sans-Serif; fill: #8B949E; }}
 </style>
-<rect x="0.5" y="0.5" rx="8" width="{W - 1}" height="{H - 1}" fill="#0D1117"/>
-<text class="header" x="40" y="54">{NAME}'s GitHub Stats</text>
+<rect x="0.5" y="0.5" rx="10" width="{W - 1}" height="{H - 1}" fill="#0D1117" stroke="#30363D"/>
 {body}
-<line x1="470" y1="40" x2="470" y2="{H - 40}" stroke="#30363D" stroke-width="1"/>
+<line x1="470" y1="36" x2="470" y2="{H - 36}" stroke="#30363D" stroke-width="1"/>
 <circle cx="{CX}" cy="{CY - 12}" r="{R}" fill="none" stroke="#1F6FEB" stroke-width="6"/>
 <text class="big" x="{CX}" y="{CY - 1}" text-anchor="middle">{contributions:,}</text>
 <text class="label" x="{CX}" y="{CY + 78}" text-anchor="middle">Total Contributions</text>
 <text class="sub" x="{CX}" y="{CY + 98}" text-anchor="middle">since {since_year}</text>
 </svg>
 '''
-open("stats.svg", "w").write(svg)
+open("card.svg", "w").write(svg)
 print(contributions, commits, recent, prs)

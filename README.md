@@ -4,6 +4,6 @@ I build machine learning things. Right now that's cardiac transplant pathology m
 
 <br />
 
-<img src="stats.svg" alt="GitHub stats" />
+<img src="card.svg" alt="GitHub stats" />
 
 </div>
