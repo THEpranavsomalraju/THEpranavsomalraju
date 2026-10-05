@@ -1,3 +1,5 @@
+<a href="https://github.com/THEpranavsomalraju"><img src="https://streak-stats.demolab.com/?user=THEpranavsomalraju&theme=github-dark-blue&hide_border=true&border_radius=10" alt="GitHub streak" /></a>
+
 I build machine learning things. Right now that's cardiac transplant pathology models with Duke and Caltech.
 
 <img src="https://skillicons.dev/icons?i=py,pytorch,sklearn,fastapi,ts,react,threejs,swift,vercel&theme=dark" />
