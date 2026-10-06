@@ -1,4 +1,4 @@
-"""Draws pranav-network.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
+"""Draws pranav-net.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
 GLYPHS = {
     "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
     "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
@@ -43,7 +43,19 @@ for (c, r) in lit:
             (x1, y1), (x2, y2) = pos(c, r), pos(*n)
             edges.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>')
 links = []
+DENSE = {0, 1}                     # P to R and R to A: link the outer node of every row, not just the edge columns
+for li in DENSE:
+    pts_a = [p for p in lit if letter_of[p] == li]
+    pts_b = [p for p in lit if letter_of[p] == li + 1]
+    right = [max((p for p in pts_a if p[1] == r), key=lambda p: p[0]) for r in range(ROWS) if any(p[1] == r for p in pts_a)]
+    left = [min((p for p in pts_b if p[1] == r), key=lambda p: p[0]) for r in range(ROWS) if any(p[1] == r for p in pts_b)]
+    for a in right:
+        for b in sorted(left, key=lambda q: abs(q[1] - a[1]))[:3]:
+            (x1, y1), (x2, y2) = pos(*a), pos(*b)
+            links.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>')
 for li in range(len(WORD) - 1):
+    if li in DENSE:
+        continue
     right = [p for p in lit if letter_of[p] == li and p[0] == max(q[0] for q in lit if letter_of[q] == li)]
     left = [p for p in lit if letter_of[p] == li + 1 and p[0] == min(q[0] for q in lit if letter_of[q] == li + 1)]
     for a in right:
@@ -109,9 +121,9 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <g class="edges">{"".join(edges)}</g>
 <g class="nodes">{"".join(nodes)}</g>
 {"".join(signals)}
-<circle class="io" cx="{IN[0]:.1f}" cy="{IN[1]:.1f}" r="8"/><circle class="core" cx="{IN[0]:.1f}" cy="{IN[1]:.1f}" r="3"/>
-<circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/><circle class="core" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="3"/>
+<circle class="io" cx="{IN[0]:.1f}" cy="{IN[1]:.1f}" r="8"/>
+<circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/>
 </svg>
 '''
-open("pranav-network.svg", "w").write(svg)
+open("pranav-net.svg", "w").write(svg)
 print(len(lit), "letter nodes")
