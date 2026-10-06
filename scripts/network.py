@@ -65,9 +65,10 @@ for li in range(len(WORD) - 1):
 
 import random
 random.seed(3)
-first_col = [p for p in lit if letter_of[p] == 0 and p[0] == min(q[0] for q in lit if letter_of[q] == 0)]
 last = len(WORD) - 1
-last_col = [p for p in lit if letter_of[p] == last and p[0] == max(q[0] for q in lit if letter_of[q] == last)]
+# the outermost node of every row, so the start and end nodes get one link per row (7 each)
+first_col = [min((p for p in lit if letter_of[p] == 0 and p[1] == r), key=lambda p: p[0]) for r in range(ROWS)]
+last_col = [max((p for p in lit if letter_of[p] == last and p[1] == r), key=lambda p: p[0]) for r in range(ROWS)]
 IN = (ox - 50, H / 2)
 OUT = (ox + (COLS - 1) * S + 50, H / 2)
 for p in first_col:
