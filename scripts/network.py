@@ -1,4 +1,4 @@
-"""Draws pranav-net-2.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
+"""Draws pranav-net-3.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
 GLYPHS = {
     "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
     "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
@@ -43,7 +43,7 @@ for (c, r) in lit:
             (x1, y1), (x2, y2) = pos(c, r), pos(*n)
             edges.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>')
 links = []
-DENSE = {0, 1}                     # P to R and R to A: link the outer node of every row, not just the edge columns
+DENSE = set(range(len(WORD) - 1))  # every pair of letters: link the outer node of every row, so the whole name looks even
 for li in DENSE:
     pts_a = [p for p in lit if letter_of[p] == li]
     pts_b = [p for p in lit if letter_of[p] == li + 1]
@@ -126,5 +126,5 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/>
 </svg>
 '''
-open("pranav-net-2.svg", "w").write(svg)
+open("pranav-net-3.svg", "w").write(svg)
 print(len(lit), "letter nodes")
