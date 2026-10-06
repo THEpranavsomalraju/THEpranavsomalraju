@@ -1,4 +1,4 @@
-"""Draws pranav-net-3.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
+"""Draws pranav-net-4.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
 GLYPHS = {
     "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
     "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
@@ -83,14 +83,46 @@ def col(li, side):
     edge = (min if side == "left" else max)(q[0] for q in pts)
     return [p for p in pts if p[0] == edge]
 
+# every drawn line becomes an edge, so signals only ever travel along lines and through nodes
+import heapq
+import math
+import re
+graph = {}
+for ln in edges + links:
+    x1, y1, x2, y2 = (round(float(v), 1) for v in re.findall(r'"([\d.]+)"', ln))
+    graph.setdefault((x1, y1), []).append((x2, y2))
+    graph.setdefault((x2, y2), []).append((x1, y1))
+START, END = (round(IN[0], 1), round(IN[1], 1)), (round(OUT[0], 1), round(OUT[1], 1))
+
+
+def route():
+    """A shortest path from the start node to the end node under random edge weights: a different route every time."""
+    w = {}
+    dist, prev, heap = {START: 0.0}, {}, [(0.0, START)]
+    while heap:
+        d, u = heapq.heappop(heap)
+        if u == END:
+            break
+        if d > dist.get(u, math.inf):
+            continue
+        for v in graph[u]:
+            key = (u, v) if u < v else (v, u)
+            w.setdefault(key, math.dist(u, v) * random.uniform(0.6, 2.2))
+            nd = d + w[key]
+            if nd < dist.get(v, math.inf):
+                dist[v], prev[v] = nd, u
+                heapq.heappush(heap, (nd, v))
+    path, node = [END], END
+    while node != START:
+        node = prev[node]
+        path.append(node)
+    return path[::-1]
+
+
 signals = []
 N_SIG, SDUR = 14, 7.0
 for k in range(N_SIG):
-    pts = [IN]
-    for li in range(len(WORD)):
-        pts.append(pos(*random.choice(col(li, "left"))))
-        pts.append(pos(*random.choice(col(li, "right"))))
-    pts.append(OUT)
+    pts = route()
     d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
     b = k * SDUR / N_SIG
     signals.append(f'<path id="p{k}" d="{d}" fill="none"/>'
@@ -126,5 +158,5 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/>
 </svg>
 '''
-open("pranav-net-3.svg", "w").write(svg)
+open("pranav-net-4.svg", "w").write(svg)
 print(len(lit), "letter nodes")
