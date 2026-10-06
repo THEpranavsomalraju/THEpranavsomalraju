@@ -1,4 +1,4 @@
-"""Draws name-network.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
+"""Draws pranav-network.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it."""
 GLYPHS = {
     "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
     "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
@@ -51,6 +51,40 @@ for li in range(len(WORD) - 1):
             (x1, y1), (x2, y2) = pos(*a), pos(*b)
             links.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>')
 
+import random
+random.seed(3)
+first_col = [p for p in lit if letter_of[p] == 0 and p[0] == min(q[0] for q in lit if letter_of[q] == 0)]
+last = len(WORD) - 1
+last_col = [p for p in lit if letter_of[p] == last and p[0] == max(q[0] for q in lit if letter_of[q] == last)]
+IN = (ox - 50, H / 2)
+OUT = (ox + (COLS - 1) * S + 50, H / 2)
+for p in first_col:
+    x, y = pos(*p)
+    links.append(f'<line x1="{IN[0]:.1f}" y1="{IN[1]:.1f}" x2="{x:.1f}" y2="{y:.1f}"/>')
+for p in last_col:
+    x, y = pos(*p)
+    links.append(f'<line x1="{x:.1f}" y1="{y:.1f}" x2="{OUT[0]:.1f}" y2="{OUT[1]:.1f}"/>')
+
+def col(li, side):
+    pts = [p for p in lit if letter_of[p] == li]
+    edge = (min if side == "left" else max)(q[0] for q in pts)
+    return [p for p in pts if p[0] == edge]
+
+signals = []
+N_SIG, SDUR = 14, 7.0
+for k in range(N_SIG):
+    pts = [IN]
+    for li in range(len(WORD)):
+        pts.append(pos(*random.choice(col(li, "left"))))
+        pts.append(pos(*random.choice(col(li, "right"))))
+    pts.append(OUT)
+    d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+    b = k * SDUR / N_SIG
+    signals.append(f'<path id="p{k}" d="{d}" fill="none"/>'
+                   f'<circle r="2.4" class="sig"><animateMotion dur="{SDUR}s" begin="{b:.2f}s" repeatCount="indefinite">'
+                   f'<mpath href="#p{k}"/></animateMotion>'
+                   f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.04;0.95;1" dur="{SDUR}s" begin="{b:.2f}s" repeatCount="indefinite"/></circle>')
+
 nodes = []
 for (c, r) in sorted(lit):
     x, y = pos(c, r)
@@ -62,8 +96,11 @@ for (c, r) in sorted(lit):
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <style>
 .bg circle {{ fill: #21262D; }}
-.links line {{ stroke: #30363D; stroke-width: 0.5; }}
-.edges line {{ stroke: #1F6FEB; stroke-width: 1.2; opacity: 0.55; }}
+.links line {{ stroke: #388BFD; stroke-width: 0.7; opacity: 0.4; }}
+.edges line {{ stroke: #388BFD; stroke-width: 1.4; opacity: 0.8; }}
+.io {{ fill: #0D1117; stroke: #79C0FF; stroke-width: 2.2; }}
+.core {{ fill: #79C0FF; }}
+.sig {{ fill: #A5D6FF; opacity: 0; }}
 .nodes circle {{ fill: #0D1117; stroke: #58A6FF; stroke-width: 1.4; }}
 </style>
 <rect x="0.5" y="0.5" rx="10" width="{W - 1}" height="{H - 1}" fill="#0D1117" stroke="#30363D"/>
@@ -71,7 +108,10 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <g class="links">{"".join(links)}</g>
 <g class="edges">{"".join(edges)}</g>
 <g class="nodes">{"".join(nodes)}</g>
+{"".join(signals)}
+<circle class="io" cx="{IN[0]:.1f}" cy="{IN[1]:.1f}" r="8"/><circle class="core" cx="{IN[0]:.1f}" cy="{IN[1]:.1f}" r="3"/>
+<circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/><circle class="core" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="3"/>
 </svg>
 '''
-open("name-network.svg", "w").write(svg)
+open("pranav-network.svg", "w").write(svg)
 print(len(lit), "letter nodes")
