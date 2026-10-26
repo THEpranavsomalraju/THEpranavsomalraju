@@ -1,4 +1,4 @@
-"""Draws pranav-net-4.svg: PRANAV spelled in network nodes. Static on purpose: anything moving across the name read as bugs."""
+"""Draws pranav-net-5.svg: PRANAV spelled in network nodes. Static on purpose: anything moving across the name read as bugs."""
 GLYPHS = {
     "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
     "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
@@ -103,5 +103,5 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/>
 </svg>
 '''
-open("pranav-net-4.svg", "w").write(svg)
+open("pranav-net-5.svg", "w").write(svg)
 print(len(lit), "letter nodes")
