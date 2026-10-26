@@ -1,4 +1,7 @@
-"""Draws pranav-net-5.svg: PRANAV spelled in network nodes. Static on purpose: anything moving across the name read as bugs."""
+"""Draws pranav-net-6.svg: PRANAV spelled in network nodes, with a slow wave of activation moving through it.
+
+The wave lights the nodes in place, left to right. There are deliberately no dots travelling along the edges:
+those read as bugs crawling over the name."""
 GLYPHS = {
     "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
     "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
@@ -9,6 +12,7 @@ GLYPHS = {
 WORD = "PRANAV"
 W, H, S = 760, 190, 15          # card size, grid spacing
 COLS, ROWS = 5 * len(WORD) + 2 * (len(WORD) - 1), 7
+WAVE, DUR = 2.2, 5.0            # seconds for the wave to cross, seconds per cycle
 ox, oy = (W - (COLS - 1) * S) / 2, (H - (ROWS - 1) * S) / 2
 
 lit, letter_of = set(), {}
@@ -83,7 +87,10 @@ def col(li, side):
 nodes = []
 for (c, r) in sorted(lit):
     x, y = pos(c, r)
-    nodes.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.6"/>')
+    t = (x - ox) / ((COLS - 1) * S) * WAVE
+    nodes.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.6">'
+                 f'<animate attributeName="fill" values="#0D1117;#79C0FF;#0D1117;#0D1117" keyTimes="0;0.08;0.3;1" '
+                 f'dur="{DUR}s" begin="{t:.2f}s" repeatCount="indefinite"/></circle>')
 
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
 <style>
@@ -103,5 +110,5 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/>
 </svg>
 '''
-open("pranav-net-5.svg", "w").write(svg)
+open("pranav-net-6.svg", "w").write(svg)
 print(len(lit), "letter nodes")
