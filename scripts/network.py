@@ -63,8 +63,6 @@ for li in range(len(WORD) - 1):
             (x1, y1), (x2, y2) = pos(*a), pos(*b)
             links.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}"/>')
 
-import random
-random.seed(3)
 last = len(WORD) - 1
 # the outermost node of every row, so the start and end nodes get one link per row (7 each)
 first_col = [min((p for p in lit if letter_of[p] == 0 and p[1] == r), key=lambda p: p[0]) for r in range(ROWS)]
@@ -83,53 +81,6 @@ def col(li, side):
     edge = (min if side == "left" else max)(q[0] for q in pts)
     return [p for p in pts if p[0] == edge]
 
-# every drawn line becomes an edge, so signals only ever travel along lines and through nodes
-import heapq
-import math
-import re
-graph = {}
-for ln in edges + links:
-    x1, y1, x2, y2 = (round(float(v), 1) for v in re.findall(r'"([\d.]+)"', ln))
-    graph.setdefault((x1, y1), []).append((x2, y2))
-    graph.setdefault((x2, y2), []).append((x1, y1))
-START, END = (round(IN[0], 1), round(IN[1], 1)), (round(OUT[0], 1), round(OUT[1], 1))
-
-
-def route():
-    """A shortest path from the start node to the end node under random edge weights: a different route every time."""
-    w = {}
-    dist, prev, heap = {START: 0.0}, {}, [(0.0, START)]
-    while heap:
-        d, u = heapq.heappop(heap)
-        if u == END:
-            break
-        if d > dist.get(u, math.inf):
-            continue
-        for v in graph[u]:
-            key = (u, v) if u < v else (v, u)
-            w.setdefault(key, math.dist(u, v) * random.uniform(0.6, 2.2))
-            nd = d + w[key]
-            if nd < dist.get(v, math.inf):
-                dist[v], prev[v] = nd, u
-                heapq.heappush(heap, (nd, v))
-    path, node = [END], END
-    while node != START:
-        node = prev[node]
-        path.append(node)
-    return path[::-1]
-
-
-signals = []
-N_SIG, SDUR = 14, 7.0
-for k in range(N_SIG):
-    pts = route()
-    d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-    b = k * SDUR / N_SIG
-    signals.append(f'<path id="p{k}" d="{d}" fill="none"/>'
-                   f'<circle r="2.4" class="sig"><animateMotion dur="{SDUR}s" begin="{b:.2f}s" repeatCount="indefinite">'
-                   f'<mpath href="#p{k}"/></animateMotion>'
-                   f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.04;0.95;1" dur="{SDUR}s" begin="{b:.2f}s" repeatCount="indefinite"/></circle>')
-
 nodes = []
 for (c, r) in sorted(lit):
     x, y = pos(c, r)
@@ -145,7 +96,6 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 .edges line {{ stroke: #388BFD; stroke-width: 1.4; opacity: 0.8; }}
 .io {{ fill: #0D1117; stroke: #79C0FF; stroke-width: 2.2; }}
 .core {{ fill: #79C0FF; }}
-.sig {{ fill: #A5D6FF; opacity: 0; }}
 .nodes circle {{ fill: #0D1117; stroke: #58A6FF; stroke-width: 1.4; }}
 </style>
 <rect x="0.5" y="0.5" rx="10" width="{W - 1}" height="{H - 1}" fill="#0D1117" stroke="#30363D"/>
@@ -153,7 +103,6 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewB
 <g class="links">{"".join(links)}</g>
 <g class="edges">{"".join(edges)}</g>
 <g class="nodes">{"".join(nodes)}</g>
-{"".join(signals)}
 <circle class="io" cx="{IN[0]:.1f}" cy="{IN[1]:.1f}" r="8"/>
 <circle class="io" cx="{OUT[0]:.1f}" cy="{OUT[1]:.1f}" r="8"/>
 </svg>
